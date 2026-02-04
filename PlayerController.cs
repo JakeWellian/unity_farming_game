@@ -19,10 +19,13 @@ public class PlayerController : MonoBehaviour
 
     public ToolType currentTool;
 
+    public float toolWaitTime = .5f;
+    private float toolWaitCounter;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        UIController.instance.SwitchTool((int)currentTool);
     }
 
     private void OnEnable()
@@ -40,17 +43,27 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.linearVelocity = moveInput.action.ReadValue<Vector2>().normalized * movespeed;
 
-        if (rb.linearVelocityX < 0f)
+        if (toolWaitCounter > 0)
         {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+            toolWaitCounter -= Time.deltaTime;
+            rb.linearVelocity = Vector2.zero;
         }
-        else if (rb.linearVelocityX > 0f)
+        else
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            rb.linearVelocity = moveInput.action.ReadValue<Vector2>().normalized * movespeed;
+
+            if (rb.linearVelocityX < 0f)
+            {
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+            }
+            else if (rb.linearVelocityX > 0f)
+            {
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
         }
 
+        bool hasSwitchedTool = false;
 
         if (Keyboard.current.tabKey.wasPressedThisFrame)
         {
@@ -60,25 +73,36 @@ public class PlayerController : MonoBehaviour
             {
                 currentTool = ToolType.plough;
             }
+
+            hasSwitchedTool = true;
+
         }
 
         if (Keyboard.current.digit1Key.wasPressedThisFrame)
         {
             currentTool = ToolType.plough;
+            hasSwitchedTool = true;
         }
         if (Keyboard.current.digit2Key.wasPressedThisFrame)
         {
             currentTool = ToolType.wateringCan;
+            hasSwitchedTool = true;
         }
         if (Keyboard.current.digit3Key.wasPressedThisFrame)
         {
             currentTool = ToolType.seeds;
+            hasSwitchedTool = true;
         }
         if (Keyboard.current.digit4Key.wasPressedThisFrame)
         {
             currentTool = ToolType.basket;
+            hasSwitchedTool = true;
         }
 
+        if (hasSwitchedTool == true)
+        {
+           UIController.instance.SwitchTool((int)currentTool);
+        }
 
         if (actionInput.action.WasPressedThisFrame())
         {
@@ -94,7 +118,9 @@ public class PlayerController : MonoBehaviour
 
         block = FindFirstObjectByType<GrowBlock>();
 
-    //block.PloughSoil();
+        //block.PloughSoil();
+
+        toolWaitCounter = toolWaitTime;
 
         if (block != null)
         {
@@ -104,17 +130,27 @@ public class PlayerController : MonoBehaviour
 
                     block.PloughSoil();
 
+                    anim.SetTrigger("usePlough");
+
                     break;
 
                 case ToolType.wateringCan:
+
+                    block.WaterSoil();
+
+                    anim.SetTrigger("useWateringCan");
 
                     break;
 
                 case ToolType.seeds:
 
+                    block.PlantCrop();
+
                     break;
 
                 case ToolType.basket:
+
+                    block.HarvestCrop();
 
                     break;
             }
