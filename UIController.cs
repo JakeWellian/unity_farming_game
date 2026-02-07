@@ -3,6 +3,21 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
 
+    public static UIController instance;
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+    }
+
     public GameObject[] toolbarActivatorIcons;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
