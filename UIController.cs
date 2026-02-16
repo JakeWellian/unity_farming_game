@@ -10,11 +10,13 @@ public class UIController : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+
         }
         else
         {
             Destroy(gameObject);
         }
+
 
     }
 
