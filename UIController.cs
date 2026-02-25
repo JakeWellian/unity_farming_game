@@ -31,6 +31,8 @@ public class UIController : MonoBehaviour
 
     public Image seedImage;
 
+    public ShopController theShop;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,6 +46,13 @@ public class UIController : MonoBehaviour
         {
             theIC.OpenClose();
         }
+
+        if (Keyboard.current.bKey.wasPressedThisFrame)
+        {
+            theShop.OpenClose();
+        }
+
+
     }
 
     public void SwitchTool(int selected)
