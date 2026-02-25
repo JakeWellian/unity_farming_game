@@ -5,6 +5,7 @@ public class CropController : MonoBehaviour
 {
     public static CropController instance;
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -89,4 +90,6 @@ public class CropInfo
 
     [Range(0f, 100f)]
     public float growthFailChance;
+
+    public float seedPrice, cropPrice;
 }
