@@ -49,22 +49,21 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         UIController.instance.SwitchTool((int)currentTool);
+
+        UIController.instance.SwitchSeed(seedCropType);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(UIController.instance != null)
+        if (UIController.instance != null &&
+        (
+            (UIController.instance.theIC != null && UIController.instance.theIC.gameObject.activeSelf) ||
+            (UIController.instance.theShop != null && UIController.instance.theShop.gameObject.activeSelf)
+        ))
         {
-            if(UIController.instance.theIC != null)
-            {
-                if(UIController.instance.theIC.gameObject.activeSelf == true)
-                {
-                    rb.linearVelocity = Vector2.zero;
-
-                    return;
-                }
-            }
+            rb.linearVelocity = Vector2.zero;
+            return;
         }
 
 

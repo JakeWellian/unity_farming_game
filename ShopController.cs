@@ -3,6 +3,7 @@ using UnityEngine;
 public class ShopController : MonoBehaviour
 {
     public ShopSeedDisplay[] seeds;
+    public ShopCropDisplay[] crops;
 
     public void OpenClose()
     {
@@ -16,9 +17,16 @@ public class ShopController : MonoBehaviour
                 {
                     seed.UpdateDisplay();
                 }
+
+                foreach(ShopCropDisplay crop in crops)
+                {
+                    crop.UpdateDisplay();
+                }
             }
         }
         
         
     }
+    
+
 }
