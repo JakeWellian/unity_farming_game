@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 public class CropController : MonoBehaviour
@@ -74,6 +75,28 @@ public class CropController : MonoBehaviour
             if(info.cropType == cropToAdd)
             {
                 info.cropAmount++;
+            }
+        }
+    }
+
+    public void RemoveCrop(CropType cropToRemove)
+    {
+        foreach (CropInfo info in cropList)
+        {
+            if (info.cropType == cropToRemove)
+            {
+                info.cropAmount = 0;
+            }
+        }
+    }
+
+    public void AddSeed(CropType seedToAdd, int amount)
+    {
+        foreach(CropInfo info in cropList)
+        {
+            if(info.cropType == seedToAdd)
+            {
+                info.seedAmount += amount;
             }
         }
     }
