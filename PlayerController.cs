@@ -59,7 +59,8 @@ public class PlayerController : MonoBehaviour
         if (UIController.instance != null &&
         (
             (UIController.instance.theIC != null && UIController.instance.theIC.gameObject.activeSelf) ||
-            (UIController.instance.theShop != null && UIController.instance.theShop.gameObject.activeSelf)
+            (UIController.instance.theShop != null && UIController.instance.theShop.gameObject.activeSelf) ||
+            (UIController.instance.pauseScreen != null && UIController.instance.pauseScreen.gameObject.activeSelf)
         ))
         {
             rb.linearVelocity = Vector2.zero;
@@ -120,6 +121,7 @@ public class PlayerController : MonoBehaviour
         {
             currentTool = ToolType.basket;
             hasSwitchedTool = true;
+
         }
 
         if (hasSwitchedTool == true)
@@ -222,3 +224,6 @@ public class PlayerController : MonoBehaviour
     }
     
 }
+
+
+
