@@ -7,13 +7,14 @@ public class ShopController : MonoBehaviour
 
     public void OpenClose()
     {
-        if(UIController.instance.theIC.gameObject.activeSelf == false)
+        if (UIController.instance.theIC.gameObject.activeSelf == false)
         {
+
             gameObject.SetActive(!gameObject.activeSelf);
 
             if(gameObject.activeSelf == true)
             {
-                foreach(ShopSeedDisplay seed in seeds)
+                foreach(ShopSeedDisplay seed in seeds) 
                 {
                     seed.UpdateDisplay();
                 }
@@ -24,9 +25,5 @@ public class ShopController : MonoBehaviour
                 }
             }
         }
-        
-        
     }
-    
-
 }

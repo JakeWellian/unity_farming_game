@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-
     public static UIController instance;
     private void Awake()
     {
@@ -14,27 +13,21 @@ public class UIController : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-
-        }
-        else
+        } else
         {
             Destroy(gameObject);
         }
-
-        AudioManager.instance.PlaySFXPitchAdjusted(5);
-
-
     }
 
     public GameObject[] toolbarActivatorIcons;
 
+    public TMP_Text dayText;
     public TMP_Text timeText;
 
     public InventoryController theIC;
+    public ShopController theShop;
 
     public Image seedImage;
-
-    public ShopController theShop;
 
     public TMP_Text moneyText;
 
@@ -44,33 +37,36 @@ public class UIController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SwitchSeed(CropController.CropType.pumpkin);
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current.iKey.wasPressedThisFrame)
+        if(Keyboard.current.iKey.wasPressedThisFrame)
         {
             theIC.OpenClose();
         }
+
 #if UNITY_EDITOR
-        if (Keyboard.current.bKey.wasPressedThisFrame)
+
+        if(Keyboard.current.bKey.wasPressedThisFrame)
         {
             theShop.OpenClose();
         }
+
 #endif
 
         if(Keyboard.current.escapeKey.wasPressedThisFrame || Keyboard.current.pKey.wasPressedThisFrame)
         {
             PauseUnpause();
         }
-
     }
 
     public void SwitchTool(int selected)
     {
-        foreach (GameObject icon in toolbarActivatorIcons)
+        foreach(GameObject icon in toolbarActivatorIcons)
         {
             icon.SetActive(false);
         }
@@ -78,25 +74,26 @@ public class UIController : MonoBehaviour
         toolbarActivatorIcons[selected].SetActive(true);
     }
 
+    public void UpdateDayText(int currentDay)
+    {
+        dayText.text = "Day " + currentDay;
+    }
+    
     public void UpdateTimeText(float currentTime)
     {
         if(currentTime < 12)
         {
             timeText.text = Mathf.FloorToInt(currentTime) + "AM";
-        }
-        else if(currentTime < 13)
+        } else if(currentTime < 13)
         {
             timeText.text = "12PM";
-        }
-        else if(currentTime < 24)
+        } else if(currentTime < 24)
         {
             timeText.text = Mathf.FloorToInt(currentTime - 12) + "PM";
-        }
-        else if(currentTime < 25)
+        } else if(currentTime < 25)
         {
             timeText.text = "12AM";
-        }
-        else
+        } else
         {
             timeText.text = Mathf.FloorToInt(currentTime - 24) + "AM";
         }
@@ -106,6 +103,7 @@ public class UIController : MonoBehaviour
     {
         seedImage.sprite = CropController.instance.GetCropInfo(crop).seedType;
 
+        AudioManager.instance.PlaySFXPitchAdjusted(5);
     }
 
     public void UpdateMoneyText(float currentMoney)
@@ -134,7 +132,7 @@ public class UIController : MonoBehaviour
     public void MainMenu()
     {
         Time.timeScale = 1f;
-        
+
         SceneManager.LoadScene(mainMenuScene);
 
         Destroy(gameObject);
@@ -143,15 +141,14 @@ public class UIController : MonoBehaviour
         Destroy(TimeController.instance.gameObject);
         Destroy(CropController.instance.gameObject);
         Destroy(CurrencyController.instance.gameObject);
+
         AudioManager.instance.PlaySFXPitchAdjusted(5);
     }
 
     public void QuitGame()
     {
-
         Application.Quit();
 
         AudioManager.instance.PlaySFXPitchAdjusted(5);
     }
-
 }

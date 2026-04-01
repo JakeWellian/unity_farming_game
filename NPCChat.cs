@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class IdleNPC : MonoBehaviour
+public class NPCChat : MonoBehaviour
 {
     public GameObject dialogueBubble; // assign bubble in inspector
-    private bool playerInRange;
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (dialogueBubble != null)
@@ -17,7 +17,7 @@ public class IdleNPC : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            playerInRange = true;
+            
 
             if (dialogueBubble != null)
             {
@@ -30,7 +30,7 @@ public class IdleNPC : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            playerInRange = false;
+            
 
             if (dialogueBubble != null)
             {

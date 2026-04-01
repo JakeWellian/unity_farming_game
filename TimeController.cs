@@ -4,44 +4,51 @@ using UnityEngine.SceneManagement;
 
 public class TimeController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    
     public static TimeController instance;
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-
-        
+        else
+        {
+            Destroy(gameObject);
+        }
+                
     }
 
     public float currentTime;
 
     public float dayStart, dayEnd;
 
-    public float timeSpeed = .25f;
+    public float timeSpeed = .2f;
 
     private bool timeActive;
 
     public int currentDay = 1;
 
-    public string dayEndScence;
+    public string dayEndScene;
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentTime = dayStart;
 
         timeActive = true;
+
+        if (UIController.instance != null)
+        {
+            UIController.instance.UpdateDayText(currentDay);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(timeActive == true)
+        if (timeActive == true)
         {
             currentTime += Time.deltaTime * timeSpeed;
 
@@ -64,12 +71,17 @@ public class TimeController : MonoBehaviour
 
         currentDay++;
 
+        if (UIController.instance != null)
+        {
+            UIController.instance.UpdateDayText(currentDay);
+        }
+
         GridInfo.instance.GrowCrop();
 
         PlayerPrefs.SetString("Transition", "Wake Up");
 
         //StartDay();
-        SceneManager.LoadScene(dayEndScence);
+        SceneManager.LoadScene(dayEndScene);
     }
 
     public void StartDay()
@@ -78,7 +90,6 @@ public class TimeController : MonoBehaviour
 
         currentTime = dayStart;
 
-        AudioManager.instance.PLaySFX(6);
-
+        AudioManager.instance.PlaySFX(6);
     }
 }

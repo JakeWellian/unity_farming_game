@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class AreaSwitcher : MonoBehaviour
 {
-    
     public string sceneToLoad;
 
     public Transform startPoint;
@@ -17,7 +16,8 @@ public class AreaSwitcher : MonoBehaviour
         {
             if (PlayerPrefs.GetString("Transition") == transitionName)
             {
-            PlayerController.instance.transform.position = startPoint.position;
+
+                PlayerController.instance.transform.position = startPoint.position;
             }
         }
     }
@@ -32,8 +32,8 @@ public class AreaSwitcher : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            Debug.Log("PLayer Entered");
-            
+            //Debug.Log("Player entered");
+
             SceneManager.LoadScene(sceneToLoad);
 
             PlayerPrefs.SetString("Transition", transitionName);

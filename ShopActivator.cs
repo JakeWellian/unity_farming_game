@@ -16,7 +16,7 @@ public class ShopActivator : MonoBehaviour
                 {
                     UIController.instance.theShop.OpenClose();
 
-                    AudioManager.instance.PLaySFX(0);
+                    AudioManager.instance.PlaySFX(0);
                 }
             }
         }
@@ -36,7 +36,5 @@ public class ShopActivator : MonoBehaviour
         {
             canOpen = false;
         }
-        
     }
-
 }

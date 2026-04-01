@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class MainMenuBGObjectSpawner : MonoBehaviour
 {
-
     public Transform minPos, maxPos;
 
     public GameObject[] objects;
 
     public float timeBetweenSpawns;
     private float spawnCounter;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

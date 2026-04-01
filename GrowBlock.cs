@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,9 +15,9 @@ public class GrowBlock : MonoBehaviour
 
     public GrowthStage currentStage;
 
-    public SpriteRenderer sr;
-    public Sprite SoilTilled;
-    public Sprite SoilWatered;
+    public SpriteRenderer theSR;
+    public Sprite soilTilled, soilWatered;
+
     public SpriteRenderer cropSR;
     public Sprite cropPlanted, cropGrowing1, cropGrowing2, cropRipe;
 
@@ -35,29 +34,28 @@ public class GrowBlock : MonoBehaviour
     void Start()
     {
         
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        /* if (Keyboard.current.eKey.wasPressedThisFrame)
+        /* if(Keyboard.current.eKey.wasPressedThisFrame)
         {
-            AdanceStage();
+            AdvanceStage();
 
             SetSoilSprite();
         } */
-# if UNITY_EDITOR
-        if (Keyboard.current.nKey.wasPressedThisFrame)
+
+#if UNITY_EDITOR
+
+        if(Keyboard.current.nKey.wasPressedThisFrame)
         {
-            AdvancedCrop();
+            AdvanceCrop();
         }
 #endif
-
-
     }
 
-    public void AdanceStage()
+    public void AdvanceStage()
     {
         currentStage = currentStage + 1;
 
@@ -65,26 +63,23 @@ public class GrowBlock : MonoBehaviour
         {
             currentStage = GrowthStage.barren;
         }
-        
     }
 
     public void SetSoilSprite()
     {
-        if (currentStage == GrowthStage.barren)
+        if(currentStage == GrowthStage.barren)
         {
-            sr.sprite = null;
-        } 
-        else
+            theSR.sprite = null;
+        } else
         {
-            if(isWatered == true)
+            if (isWatered == true)
             {
-                sr.sprite = SoilWatered;
+                theSR.sprite = soilWatered;
             }
             else
             {
-                sr.sprite = SoilTilled;
+                theSR.sprite = soilTilled;
             }
-                
         }
 
         UpdateGridInfo();
@@ -92,7 +87,7 @@ public class GrowBlock : MonoBehaviour
 
     public void PloughSoil()
     {
-        if (currentStage == GrowthStage.barren && preventUse == false)
+        if(currentStage == GrowthStage.barren && preventUse == false)
         {
             currentStage = GrowthStage.ploughed;
 
@@ -104,7 +99,7 @@ public class GrowBlock : MonoBehaviour
 
     public void WaterSoil()
     {
-        if(preventUse == false)
+        if (preventUse == false)
         {
             isWatered = true;
 
@@ -112,7 +107,6 @@ public class GrowBlock : MonoBehaviour
 
             AudioManager.instance.PlaySFXPitchAdjusted(7);
         }
-        
     }
 
     public void PlantCrop(CropController.CropType cropToPlant)
@@ -135,10 +129,9 @@ public class GrowBlock : MonoBehaviour
 
     public void UpdateCropSprite()
     {
-
         CropInfo activeCrop = CropController.instance.GetCropInfo(cropType);
-        
-        switch (currentStage)
+
+        switch(currentStage)
         {
             case GrowthStage.planted:
 
@@ -167,13 +160,12 @@ public class GrowBlock : MonoBehaviour
                 cropSR.sprite = activeCrop.ripe;
 
                 break;
-
         }
 
         UpdateGridInfo();
     }
 
-    public void AdvancedCrop()
+    public void AdvanceCrop()
     {
         if(isWatered == true && preventUse == false)
         {
@@ -185,7 +177,6 @@ public class GrowBlock : MonoBehaviour
                 SetSoilSprite();
                 UpdateCropSprite();
             }
-
         }
     }
 
@@ -196,6 +187,7 @@ public class GrowBlock : MonoBehaviour
             currentStage = GrowthStage.ploughed;
 
             SetSoilSprite();
+
             cropSR.sprite = null;
 
             CropController.instance.AddCrop(cropType);
@@ -213,5 +205,4 @@ public class GrowBlock : MonoBehaviour
     {
         GridInfo.instance.UpdateInfo(this, gridPosition.x, gridPosition.y);
     }
-
 }

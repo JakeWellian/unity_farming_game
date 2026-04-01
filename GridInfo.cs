@@ -4,10 +4,9 @@ using UnityEngine.InputSystem;
 
 public class GridInfo : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public static GridInfo instance;
-    
-    void Start()
+
+    private void Awake()
     {
         if(instance == null)
         {
@@ -27,16 +26,15 @@ public class GridInfo : MonoBehaviour
     {
         hasGrid = true;
 
-        for (int y = 0; y < GridController.instance.blockRows.Count; y++)
+        for(int y = 0; y < GridController.instance.blockRows.Count; y++)
         {
             theGrid.Add(new InfoRow());
 
-            for (int x = 0; x < GridController.instance.blockRows[y].blocks.Count; x++)
+            for(int x = 0; x < GridController.instance.blockRows[y].blocks.Count; x++)
             {
                 theGrid[y].blocks.Add(new BlockInfo());
             }
         }
-
     }
 
     public void UpdateInfo(GrowBlock theBlock, int xPos, int yPos)
@@ -45,17 +43,17 @@ public class GridInfo : MonoBehaviour
         theGrid[yPos].blocks[xPos].isWatered = theBlock.isWatered;
         theGrid[yPos].blocks[xPos].cropType = theBlock.cropType;
         theGrid[yPos].blocks[xPos].growFailChance = theBlock.growFailChance;
+
     }
 
     public void GrowCrop()
     {
-        for (int y = 0; y < theGrid.Count; y++)
+        for(int y = 0; y < theGrid.Count; y++)
         {
-            for (int x = 0; x < theGrid[y].blocks.Count; x++)
+            for(int x = 0; x < theGrid[y].blocks.Count; x++)
             {
                 if (theGrid[y].blocks[x].isWatered == true)
                 {
-
                     float growthFailTest = Random.Range(0f, 100f);
 
                     if (growthFailTest > theGrid[y].blocks[x].growFailChance)
@@ -81,8 +79,10 @@ public class GridInfo : MonoBehaviour
 
                                 break;
 
+
                         }
                     }
+
                     theGrid[y].blocks[x].isWatered = false;
                 }
 
@@ -94,6 +94,13 @@ public class GridInfo : MonoBehaviour
         }
     }
 
+    /*private void Update()
+    {
+        if(Keyboard.current.yKey.wasPressedThisFrame)
+        {
+            GrowCrop();
+        }
+    }*/
 }
 
 [System.Serializable]

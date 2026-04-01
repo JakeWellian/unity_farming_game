@@ -25,5 +25,4 @@ public class SeedDisplay : MonoBehaviour
 
         UIController.instance.theIC.OpenClose();
     }
-
 }

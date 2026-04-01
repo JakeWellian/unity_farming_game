@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class AudioManager : MonoBehaviour
 {
@@ -10,14 +11,11 @@ public class AudioManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-
         }
         else
         {
             Destroy(gameObject);
         }
-
-
     }
 
     public AudioSource titleMusic;
@@ -28,21 +26,20 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource[] sfx;
 
-    public void Start()
+    private void Start()
     {
         currentTrack = -1;
     }
 
-    public void Update()
+    private void Update()
     {
-        if(isPaused == false)
+        if (isPaused == false)
         {
             if (bgMusic[currentTrack].isPlaying == false)
             {
                 PlayNextBGM();
             }
-        } 
-
+        }
     }
 
     public void StopMusic()
@@ -90,16 +87,16 @@ public class AudioManager : MonoBehaviour
         bgMusic[currentTrack].Play();
     }
 
-    public void PLaySFX(int sfxToPlay)
+    public void PlaySFX(int sfxToPlay)
     {
         sfx[sfxToPlay].Stop();
         sfx[sfxToPlay].Play();
     }
 
-    public void PlaySFXPitchAdjusted(int sfxToPLay)
+    public void PlaySFXPitchAdjusted(int sfxToPlay)
     {
-        sfx[sfxToPLay].pitch = Random.Range(.8f, 1.2f);
+        sfx[sfxToPlay].pitch = Random.Range(.8f, 1.2f);
 
-        PLaySFX(sfxToPLay);
+        PlaySFX(sfxToPlay);
     }
 }

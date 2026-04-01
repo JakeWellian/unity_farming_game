@@ -9,7 +9,6 @@ public class ShopCropDisplay : MonoBehaviour
     public Image cropImage;
     public TMP_Text amountText, priceText;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void UpdateDisplay()
     {
         CropInfo info = CropController.instance.GetCropInfo(crop);
@@ -24,17 +23,16 @@ public class ShopCropDisplay : MonoBehaviour
     {
         CropInfo info = CropController.instance.GetCropInfo(crop);
 
-        if(info.cropAmount > 0)
+        if (info.cropAmount > 0)
         {
             CurrencyController.instance.AddMoney(info.cropAmount * info.cropPrice);
-            
+
+
             CropController.instance.RemoveCrop(crop);
 
             UpdateDisplay();
 
             AudioManager.instance.PlaySFXPitchAdjusted(5);
         }
-
-        
     }
 }

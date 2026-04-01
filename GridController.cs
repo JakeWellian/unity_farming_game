@@ -1,13 +1,11 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridController : MonoBehaviour
 {
-
     public static GridController instance;
 
-    public void Awake()
+    private void Awake()
     {
         instance = this;
     }
@@ -21,7 +19,7 @@ public class GridController : MonoBehaviour
     public List<BlockRow> blockRows = new List<BlockRow>();
 
     public LayerMask gridBlockers;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,30 +39,30 @@ public class GridController : MonoBehaviour
 
         Vector3 startpoint = minPoint.position + new Vector3(.5f, .5f, 0f);
 
-        // Instantiate(baseGridBlock, startpoint, Quaternion.identity);
+        //Instantiate(baseGridBlock, startpoint, Quaternion.identity);
 
-        gridSize = new Vector2Int(Mathf.RoundToInt(maxPoint.position.x - minPoint.position.x), Mathf.RoundToInt(maxPoint.position.y - minPoint.position.y));
+        gridSize = new Vector2Int(Mathf.RoundToInt(maxPoint.position.x - minPoint.position.x), 
+            Mathf.RoundToInt(maxPoint.position.y - minPoint.position.y));
 
         for(int y = 0; y < gridSize.y; y++)
         {
-            
             blockRows.Add(new BlockRow());
 
-            for(int x = 0; x < gridSize.x; x++)
+            for (int x = 0; x < gridSize.x; x++)
             {
-                
-                GrowBlock newBlock = Instantiate(baseGridBlock, startpoint + new Vector3(x, y, 0f), Quaternion.identity);
+
+                GrowBlock newBlock = Instantiate(baseGridBlock, startpoint + new Vector3(x , y, 0f), Quaternion.identity);
 
                 newBlock.transform.SetParent(transform);
-                newBlock.sr.sprite = null;
+                newBlock.theSR.sprite = null;
 
                 newBlock.SetGridPosition(x, y);
 
                 blockRows[y].blocks.Add(newBlock);
 
-                if (Physics2D.OverlapBox(newBlock.transform.position, new Vector2(.9f, .9f), 0f, gridBlockers))
+                if(Physics2D.OverlapBox(newBlock.transform.position, new Vector2(.9f, .9f), 0f, gridBlockers))
                 {
-                    newBlock.sr.sprite = null;
+                    newBlock.theSR.sprite = null;
                     newBlock.preventUse = true;
                 }
 
@@ -80,23 +78,19 @@ public class GridController : MonoBehaviour
                     newBlock.SetSoilSprite();
                     newBlock.UpdateCropSprite();
                 }
-
             }
-            
         }
 
-        if (GridInfo.instance.hasGrid == false)
+        if(GridInfo.instance.hasGrid == false)
         {
             GridInfo.instance.CreateGrid();
         }
 
         baseGridBlock.gameObject.SetActive(false);
-
     }
 
     public GrowBlock GetBlock(float x, float y)
     {
-
         x = Mathf.RoundToInt(x);
         y = Mathf.RoundToInt(y);
 
@@ -113,10 +107,11 @@ public class GridController : MonoBehaviour
 
         return null;
     }
-
 }
+
 [System.Serializable]
 public class BlockRow
 {
+    
     public List<GrowBlock> blocks = new List<GrowBlock>();
 }

@@ -1,21 +1,17 @@
 using System.Collections.Generic;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 public class CropController : MonoBehaviour
 {
     public static CropController instance;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
         if(instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        }
-        else
+        } else
         {
             Destroy(gameObject);
         }
@@ -29,11 +25,12 @@ public class CropController : MonoBehaviour
         hay,
         potato,
         strawberry,
-        tomato,
-        aubergine
+        tomato, 
+        avocado
     }
 
     public List<CropInfo> cropList = new List<CropInfo>();
+
 
     public CropInfo GetCropInfo(CropType cropToGet)
     {
@@ -50,8 +47,7 @@ public class CropController : MonoBehaviour
         if(position >= 0)
         {
             return cropList[position];
-        }
-        else
+        } else
         {
             return null;
         }
@@ -70,22 +66,11 @@ public class CropController : MonoBehaviour
 
     public void AddCrop(CropType cropToAdd)
     {
-        foreach(CropInfo info in cropList)
-        {
-            if(info.cropType == cropToAdd)
-            {
-                info.cropAmount++;
-            }
-        }
-    }
-
-    public void RemoveCrop(CropType cropToRemove)
-    {
         foreach (CropInfo info in cropList)
         {
-            if (info.cropType == cropToRemove)
+            if (info.cropType == cropToAdd)
             {
-                info.cropAmount = 0;
+                info.cropAmount++;
             }
         }
     }
@@ -100,7 +85,18 @@ public class CropController : MonoBehaviour
             }
         }
     }
- 
+
+    public void RemoveCrop(CropType cropToRemove)
+    {
+        foreach (CropInfo info in cropList)
+        {
+            if (info.cropType == cropToRemove)
+            {
+                info.cropAmount = 0;
+            }
+
+        }
+    }
 }
 
 [System.Serializable]

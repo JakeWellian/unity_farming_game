@@ -3,23 +3,24 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class DayEndController : MonoBehaviour
 {
     public TMP_Text dayText;
 
     public string wakeUpScene;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-           if(TimeController.instance != null)
+        if(TimeController.instance != null)
         {
             dayText.text = "- Day " + TimeController.instance.currentDay + " -";
         }
 
         AudioManager.instance.PauseMusic();
 
-        AudioManager.instance.PLaySFX(1);
+
+        AudioManager.instance.PlaySFX(1);
     }
 
     private void Update()
